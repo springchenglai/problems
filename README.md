@@ -59,10 +59,38 @@ vuex保存状态不是持久化保存的
 ## 解决方案
 授权成功后，在重定向的中间页中通过sessionStorage存储code，返回到无code下单页时判断code是否存在，如果存在则不再进行一系列授权操作。
 
-## 8.ios端软键盘弹出导致布局问题
+# 8.ios端软键盘弹出导致布局问题
 ## 问题现象
 ios端软键盘弹出时，页面会向上移，键盘收起后，页面没有恢复回来，导致页面底部留白
 ## 解决方案
 监听表单节点的blur事件，在失焦时：
 1. 主动触发页面的滚动，因为页面滚动后布局就恢复正常了
 2. 让页面滚回到视口区域，即document.activeElement.scrollIntoView(true)
+
+# 9.关于video的坑
+
+## 1. 有些浏览器不支持自动播放，因为怕声音干扰用户，可通过设置```muted```静音自动播放
+
+## 2. 即使设置了```muted```，```iOS```端在微信中也无法自动播放，可通过微信```js-sdk```来解决，即监听到 ```WeixinJSBridgeReady``` 事件后再```video.paly()```
+
+## 3. 想要视频不全屏播放，在```video```标签加
+
+```
+webkit-playsinline
+playsinline
+t7-video-player-type="inline"
+```
+
+## 4. x5内核中，视频层级在页面最高，导致有些元素被遮挡，在```video```标签加
+
+```
+x5-video-player-type="h5-page"
+```
+
+## 5. 嵌入安卓/iOS的h5 video，默认是可以支持有声音自动播放的，但是测试发现```iphone xr```不能自动播放，暂时没找到解决方法
+
+## 6. 视频进入全屏方```requestFullScreen()```对```iphone xr```不生效，即使加了前缀
+
+## 7. ```fullscreenchange```事件对```iOS```端不生效
+
+## 
